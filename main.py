@@ -31,5 +31,16 @@ def crear_mensaje():
     contador_id += 1
     return jsonify(nuevo_mensaje), 201
 
+# PUT: Actualizar un mensaje existente
+@app.route("/mensajes/<int:mensaje_id>", methods=["PUT"])
+def actualizar_mensaje(mensaje_id):
+    data = request.get_json()
+    for mensaje in mensajes:
+        if mensaje["id"] == mensaje_id:
+            mensaje["user"] = data.get("user", mensaje["user"])
+            mensaje["mensaje"] = data.get("mensaje", mensaje["mensaje"])
+            return jsonify(mensaje), 200
+    return jsonify({"error": "Mensaje no encontrado"}), 404
+
 if __name__ == "__main__":
     app.run(debug=True)
