@@ -42,5 +42,14 @@ def actualizar_mensaje(mensaje_id):
             return jsonify(mensaje), 200
     return jsonify({"error": "Mensaje no encontrado"}), 404
 
+# DELETE: Eliminar un mensaje
+@app.route("/mensajes/<int:mensaje_id>", methods=["DELETE"])
+def eliminar_mensaje(mensaje_id):
+    for mensaje in mensajes:
+        if mensaje["id"] == mensaje_id:
+            mensajes.remove(mensaje)
+            return jsonify({"mensaje": "Mensaje eliminado"}), 200
+    return jsonify({"error": "Mensaje no encontrado"}), 404
+
 if __name__ == "__main__":
     app.run(debug=True)
